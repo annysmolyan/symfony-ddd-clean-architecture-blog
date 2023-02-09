@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    {%
+        include '@frontend_feature_templates/baseTheme/block/head.html.twig'
+        with {
+            'seoTitle': (seoTitle is defined) ? seoTitle : 'Default Title',
+            'seoDescription': (seoDescription is defined) ? seoDescription : 'Default Description'
+        }
+    %}
+    <body>
+        {% block body %}
+            <div class="container">
+                <header class="{% block headerClass %}blog-header lh-1 py-3{% endblock %}">
+                    {% block header %}
+                        {% include '@frontend_feature_templates/baseTheme/block/header.html.twig' %}
+                    {% endblock %}
+                </header>
+
+                <div class="{% block blockNavWrapperClass %}nav-scroller py-1 mb-2{% endblock %}">
+                    {% block nav %}
+                        <nav class="nav d-flex justify-content-between">
+                            {% for item in menuItems %}
+                                <a
+                                    class="p-2 link-secondary"
+                                    href="{{ path('frontend_feature_category_view', {slug: item.slug}) }}">
+                                    {{ item.title }}
+                                </a>
+                            {% endfor %}
+                        </nav>
+                    {% endblock %}
+                </div>
+            </div>
+
+            <main class="{% block blockMainWrapperClass %}container{% endblock %}">
+                <div class="p-4 p-md-5 mb-4 rounded text-bg-dark">
+                    <div class="col-md-12 px-0">
+                        <h1 class=" fst-italic">{% block pageTitle %}{% endblock %}</h1>
+                    </div>
+                </div>
+                {% block main %}{% endblock %}
+            </main>
+
+            <footer class="{% block blockFooterWrapperClass %}blog-footer{% endblock %}">
+                {% block footer %}
+                    {% include '@frontend_feature_templates/baseTheme/block/footer.html.twig' %}
+                {% endblock %}
+            </footer>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,64 @@
+version: '3.7'
+services:
+    web-server-blog-example:
+        build:
+            dockerfile: nginx.Dockerfile
+            context: ./docker/nginx
+        restart: always
+        container_name: web-server-blog-example
+        #image: nginx:1.20
+        ports:
+            - "105:80" #you can replace with your local port if need
+        volumes:
+            - ./source:/var/www/html
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d
+            - ./docker/nginx/symfony-cors.conf:/etc/nginx/symfony-cors.conf
+        links:
+            - php-blog-example
+        depends_on:
+          - php-blog-example
+
+    php-blog-example:
+        container_name: php-blog-example
+        build:
+            dockerfile: php.Dockerfile
+            context: ./docker/php
+        environment:
+            PHP_IDE_CONFIG: "serverName=DockerBlogExample" #need for Xdebug id for php storm
+            XDEBUG_CONFIG: remote_host=192.168.0.107 #need for Xdebug id for php storm. WARNING! Replace ip with your own laptop IPv4 address
+        volumes: #you can also mount here ssh folders, if need
+          - ./source:/var/www/html
+          - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+        depends_on:
+            - mysql-blog-example
+
+    mysql-blog-example:
+        container_name: mysql-server-blog-example
+        image: mysql:5.7
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: 'dev'
+            MYSQL_PASSWORD: 'dev'
+            MYSQL_DATABASE: blog_example
+        command:
+            - "mysqld"
+            - "--local_infile=true"
+        ports:
+            - "3330:3306" #you can replace local port 3330 with your own if need
+
+    phpmyadmin-blog-example:
+        container_name: phpmyadmin-blog-example
+        image: phpmyadmin/phpmyadmin:5.0.1
+        restart: always
+        environment:
+            PMA_HOST: mysql-server-blog-example
+            PMA_USER: root
+            PMA_PASSWORD: root
+            UPLOAD_LIMIT: 50M
+        ports:
+            - "5022:80" #you can replace local port 5022 with your own if need
+        depends_on:
+            - mysql-blog-example
+
+

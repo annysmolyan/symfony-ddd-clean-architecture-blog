@@ -1,0 +1,25 @@
+{% extends '@frontend_feature_templates/baseTheme/layout/base.html.twig' %}
+
+{% block pageTitle %}
+    Welcome! Glad To See You Here!
+{% endblock %}
+
+{% block main %}
+    <div class="row mb-2">
+        {% for category in categoryList %}
+            <div class="col-md-6">
+                <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                    <div class="col p-4 d-flex flex-column position-static">
+                        <h3 class="mb-0">{{ category.title }}</h3>
+                        <a
+                                href="{{ path('frontend_feature_category_view', {slug: category.slug}) }}"
+                                class="stretched-link"
+                        >
+                            Continue reading
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

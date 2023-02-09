@@ -1,0 +1,35 @@
+{% extends '@frontend_feature_templates/baseTheme/layout/base.html.twig' %}
+
+{% block pageTitle %}
+    {{post.title}}
+{% endblock %}
+
+{% block main %}
+    <div class="row g-5">
+        <div class="col-md-8">
+            <article class="blog-post">
+                <p class="blog-post-meta">{{ post.updatedAt }}</p>
+                {{ post.content }}
+            </article>
+        </div>
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 2rem;">
+                <div class="p-4">
+                    <h4 class="fst-italic">Categories</h4>
+                    <ol class="list-unstyled mb-0">
+                        {% for item in menuItems %}
+                            <li>
+                                <a
+                                    class="p-2 link-secondary"
+                                    href="{{ path('frontend_feature_category_view', {slug: item.slug}) }}"
+                                >
+                                    {{ item.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

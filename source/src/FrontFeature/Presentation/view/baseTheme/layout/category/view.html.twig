@@ -1,0 +1,36 @@
+{% extends '@frontend_feature_templates/baseTheme/layout/base.html.twig' %}
+
+{% block pageTitle %}
+    {{category.title}}
+{% endblock %}
+
+{% block main %}
+    <div class="row g-5">
+        <div class="col-md-12">
+            <article class="blog-post">
+                {{ category.content }}
+            </article>
+        </div>
+    </div>
+    <div class="row mb-2">
+        {% if postList %}
+            {% for post in postList %}
+                <div class="col-md-6">
+                    <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                        <div class="col p-4 d-flex flex-column position-static">
+                            <h3 class="mb-0">{{ post.title }}</h3>
+                            <a
+                                    href="{{ path('frontend_feature_post_view', {slug: post.slug}) }}"
+                                    class="stretched-link"
+                            >
+                                Continue reading
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No posts yet =(</p>
+        {% endif %}
+    </div>
+{% endblock %}

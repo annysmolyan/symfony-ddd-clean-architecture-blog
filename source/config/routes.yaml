@@ -1,0 +1,10 @@
+#controllers:
+#    resource:
+#        path: ../src/Controller/
+#        namespace: App\Controller
+#    type: attribute
+
+frontend_feature_controllers:
+    resource: '../src/FrontFeature/Presentation/Controller/'
+    type: attribute
+    trailing_slash_on_root: false

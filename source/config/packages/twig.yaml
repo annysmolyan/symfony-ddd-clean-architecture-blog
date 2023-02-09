@@ -1,0 +1,8 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    paths:
+        'src/FrontFeature/Presentation/view': 'frontend_feature_templates'
+
+when@test:
+    twig:
+        strict_variables: true
